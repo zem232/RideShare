@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>NYC Rideshare</title>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='css/styles.css' rel='stylesheet'>
+  </head>
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <!-- Scrollbar Custom CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+  <!-- Font Awesome JS -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- Bootstrap: https://bootstrapious.com/p/bootstrap-sidebar -->
+  <div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+      <div id="sidebarCollapse">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+
+      <ul class="list-unstyled components">
+        <p>Rideshare</p>
+        <li class="active">
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">About</a>
+          <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li>
+              <p>This website allows users to visually explore Taxi ridesharing throughtout New York City. </p>
+            </li>
+          </ul>
+        </li>
+        <li class='active'>
+          <a href="#contactSubmenu" data-toggle="collapse" aria-expanded="false">Contact</a>
+          <ul class="collapse list-unstyled" id="contactSubmenu">
+            <li>
+              <p>Zoe Martiniak</br>
+                Urban Data Scientist<br>
+                https://github.com/zem232/ADayInNewYork</p>
+            </li>
+            <li><p>zem232@nyu.edu</p></li>
+
+          </ul>
+        </li>
+      </ul>
+
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+          <button type="button" id="moreInfo" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span>More Info</span>
+          </button>
+          <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+
+              <h2>Ridesharing in NYC</h2></br>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div id='Contained'>
+        <p>Select Vehicle ID</p>
+        <div class="slidecontainer">
+          <input type="text" id="vehicleID">
+          <input type="submit" value = "Submit">
+          <button id='resetButton'>Reset (Totals)</button>
+        </div>
+
+        <!-- Map Layer and Legends (Daily and Hourly legends) -->
+        <div id='mapContainer'>
+          <div id='map'></div>
+          <div id='daily-legend' class='legend'>
+            <p>#Complaints</br>(Total Day)</p>
+            <div><span style='background-color: #fff7ec'></span>0</div>
+            <div><span style='background-color: #fee8c8'></span>10</div>
+            <div><span style='background-color: #fdd49e'></span>20</div>
+            <div><span style='background-color: #fdbb84'></span>30</div>
+            <div><span style='background-color: #fc8d59'></span>40</div>
+            <div><span style='background-color: #ef6548'></span>50</div>
+            <div><span style='background-color: #d7301f'></span>60</div>
+            <div><span style='background-color: #990000'></span>70</div>
+          </div>
+          <div id='hourly-legend' class='legend'>
+            <p>#Complaints</br>(Hourly)</p>
+            <div><span style='background-color: #f1eef6'></span>0</div>
+            <div><span style='background-color: #d7b5d8'></span>2</div>
+            <div><span style='background-color: #df65b0'></span>4</div>
+            <div><span style='background-color: #dd1c77'></span>6</div>
+            <div><span style='background-color: #980043'></span>8</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Website Body Content  -->
+
+
+
+    </div>
+  </div>
+
+  <div class="overlay"></div>
+
+  <!-- jQuery CDN - Slim version (=without AJAX) -->
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <!-- Popper.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <!-- jQuery Custom Scroller CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <!-- Script sources -->
+  <script src="js/scripts.js"></script>
+
+</body>
+
+</html>

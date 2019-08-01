@@ -2,8 +2,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiemVtMjMyIiwiYSI6ImNqdWQ5NXQxcDAydWw0NHBleGlnb
 var map = new mapboxgl.Map({
   container: 'mapContainer',
   style: 'mapbox://styles/mapbox/light-v10',
-  center: [-73.950348, 40.733210],
-  zoom: 11
+  center: [-73.9649257, 40.776106],
+  zoom: 12
 });
 
 var zoomThreshold = 4;
@@ -11,7 +11,7 @@ var zoomThreshold = 4;
 function filterBy(vid) {
   //filtering for the hour, as defined by time slider
   var filters = ['==', 'Vehicle_ID', vid];
-  map.setFilter('ride_paths', filters);
+  map.setFilter('vpaths', filters);
 }
 
 // Upon initial map load, the choropleth layer will show daily complaint counts
@@ -28,17 +28,18 @@ map.on('load', function() {
     });
 
     map.addLayer({
-      id: 'paths',
-      type: 'symbol',
+      id: 'vpaths',
+      type: 'circle',
       source: 'ride_paths',
       paint: {
-        'fill-opacity': 0.7
-      }
+        "circle-color": "#11b4da",
+        "circle-radius": 4,
+        "circle-opacity": 0.3}
     });
 
     map.on('mousemove', function(e) {
       var features = map.queryRenderedFeatures(e.point, {
-        layers: ['paths'],
+        layers: ['vpaths'],
       });
       const lot = features[0]
       if (lot) {
@@ -51,77 +52,17 @@ map.on('load', function() {
 
     // Created a sliding time scale for the user to select a time of day
     // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_js_rangeslider
-    var slider = document.getElementById("vehicleID");
-    var output = document.getElementById("timeOfDay");
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("vehicleID");
     output.innerHTML = slider.value;
 
     slider.oninput = function() {
-      $('#daily-legend').hide();
-      $('#hourly-legend').show();
-      $('#hourlyCount').show();
-      $('#hourlyDescriptor').show();
-      $('#dailyCount').hide();
-      $('#dailyDescriptor').hide();
-      output.innerHTML = this.value + ':00 (Military Time)';
-      var VID= this.value
+      var VID= parseInt(this.value)
       console.log('Time: ',VID); // Checking to see if time scale values are registering
       console.log(typeof(VID)); // Checking type of time scale values
-
-      // Changing the layer color for the complaints aggregated by specific time of day
-      var hourlyColor = [
-        'interpolate',
-        ['linear'],
-        ['get', 'hourly_counts'],
-        0, '#f1eef6',
-        2, '#d7b5d8',
-        4, '#df65b0',
-        6, '#dd1c77',
-        8, '#980043'
-      ];
-      map.setPaintProperty('311-complaints-DayOf', 'fill-color', hourlyColor);
-
-      // filtering the geojson file for each NTA for only the rows where the hour column
-      // matches the hour dictated by UI
       filterBy(VID);
+      output.innerHTML = this.value;
 
-      // e is the event (js knows where cursor is when you move your mouse)
-      map.on('mousemove', function(e) {
-        var features = map.queryRenderedFeatures(e.point, {
-          layers: ['311-complaints-DayOf'],
-        });
-        // get the first feature from the array of returned features
-        const nta = features[0]
-        if (nta) {
-          // displaying the total counts and the complaint mode for each nta
-          // in the left hand side of the website body
-          $('#hourlyCount').text(nta.properties.hourly_counts);
-          $('#hourlyDescriptor').text(nta.properties.complaint_type);
-          // logging the complaint type
-          console.log(nta.properties.complaint_type);
-        }
-      });
-
-      // Creating a popup to display complaint into for nta
-      var popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false
-      });
-
-      //
-      map.on('click', '311-complaints-DayOf', function(e) {
-        // Change the cursor style to a pointer
-        map.getCanvas().style.cursor = 'pointer';
-        // define the features of the area you clicked on the map.
-        var feature = e.features[0]
-
-        // Populate the popup and set its coordinates
-        // based on the feature found.
-        popup.setLngLat(e.lngLat)
-          .setHTML(feature.properties.ntaname +
-            '\n Complaints: ' + feature.properties.hourly_counts +
-            '\n Common Type: ' + feature.properties.complaint_type)
-          .addTo(map);
-      });
     };
   });
 });

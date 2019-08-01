@@ -83,35 +83,24 @@
           </div>
         </div>
       </nav>
+
+
       <div id='Contained'>
-        <p>Select Vehicle ID</p>
-        <div class="slidecontainer">
-          <input type="text" id="vehicleID">
-          <input type="submit" value = "Submit">
-          <button id='resetButton'>Reset (Totals)</button>
-        </div>
+
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="6" class="slider" id="myRange">
+
+            <button id='resetButton'>Reset Vehicle ID</button>
+          </div>
+          <p>Select Vehicle ID (1-100): <span id="vehicleID"></span></p>
+
 
         <!-- Map Layer and Legends (Daily and Hourly legends) -->
         <div id='mapContainer'>
           <div id='map'></div>
           <div id='daily-legend' class='legend'>
-            <p>#Complaints</br>(Total Day)</p>
-            <div><span style='background-color: #fff7ec'></span>0</div>
-            <div><span style='background-color: #fee8c8'></span>10</div>
-            <div><span style='background-color: #fdd49e'></span>20</div>
-            <div><span style='background-color: #fdbb84'></span>30</div>
-            <div><span style='background-color: #fc8d59'></span>40</div>
-            <div><span style='background-color: #ef6548'></span>50</div>
-            <div><span style='background-color: #d7301f'></span>60</div>
-            <div><span style='background-color: #990000'></span>70</div>
-          </div>
-          <div id='hourly-legend' class='legend'>
-            <p>#Complaints</br>(Hourly)</p>
-            <div><span style='background-color: #f1eef6'></span>0</div>
-            <div><span style='background-color: #d7b5d8'></span>2</div>
-            <div><span style='background-color: #df65b0'></span>4</div>
-            <div><span style='background-color: #dd1c77'></span>6</div>
-            <div><span style='background-color: #980043'></span>8</div>
+            <p>Vehicle Locations</br>(Total Day)</p>
+            <div><span style='background-color: #11b4da'></span></div>
           </div>
         </div>
       </div>
